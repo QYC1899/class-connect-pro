@@ -23,7 +23,7 @@ export const timetable: TimetableEntry[] = [
   { time: "1330-1410", fridayTime: "1340-1420", monday: "英文 English", tuesday: "数学 Maths", wednesday: "英文 English", thursday: "英文 English", friday: "联课活动 Curricular Activities" },
   { time: "1410-1420", monday: "", tuesday: "", wednesday: "", thursday: "", friday: "", isRecess: true },
   { time: "1420-1500", fridayTime: "1420-1500", monday: "地理 Geography", tuesday: "华文 Chinese", wednesday: "-", thursday: "历史 History", friday: "联课活动 Curricular Activities" },
-  { time: "1500-1540", fridayTime: "1450-1540", monday: "历史 History", tuesday: "英文 English", wednesday: "-", thursday: "科学 Science", friday: "联课活动 Curricular Activities" },
+  { time: "1500-1540", fridayTime: "1500-1540", monday: "历史 History", tuesday: "英文 English", wednesday: "-", thursday: "科学 Science", friday: "联课活动 Curricular Activities" },
 ];
 
 export const recessLabels: Record<string, string> = {
