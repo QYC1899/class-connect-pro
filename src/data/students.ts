@@ -1,0 +1,56 @@
+export interface Student {
+  seatNo: number;
+  chineseName: string;
+  englishName: string;
+  studentId: string;
+  position: string;
+}
+
+export const students: Student[] = [
+  { seatNo: 1, chineseName: "陈伊萱", englishName: "Tan Yee Zen", studentId: "250095", position: "辅导干事" },
+  { seatNo: 2, chineseName: "陈薏如", englishName: "Tan Yi Ru", studentId: "250096", position: "文书干事" },
+  { seatNo: 3, chineseName: "杜静暄", englishName: "Toh Jing Xuan", studentId: "250097", position: "国文干事" },
+  { seatNo: 4, chineseName: "傅程乐", englishName: "Poh Jen Le", studentId: "250098", position: "美术干事" },
+  { seatNo: 5, chineseName: "甘婧瑜", englishName: "Cherry Kam Jing Yee", studentId: "250099", position: "科学干事" },
+  { seatNo: 6, chineseName: "何欣雨", englishName: "Ho Xin Yu", studentId: "250100", position: "食堂小组" },
+  { seatNo: 7, chineseName: "黄佳欣", englishName: "Ng Jia Xin", studentId: "250101", position: "华文干事" },
+  { seatNo: 8, chineseName: "黄诗彤", englishName: "Doreen Ng Sze Tong", studentId: "250102", position: "华文干事" },
+  { seatNo: 9, chineseName: "江和霏", englishName: "Kang Hap Fei", studentId: "250103", position: "数学干事" },
+  { seatNo: 10, chineseName: "李昀佳", englishName: "Lee Yun Jia", studentId: "250104", position: "地理干事" },
+  { seatNo: 11, chineseName: "廖晨伊", englishName: "Liew Chen Yi", studentId: "250105", position: "多媒体干事" },
+  { seatNo: 12, chineseName: "林鎧琪", englishName: "Phelia Lim Kai Qi", studentId: "250106", position: "英文干事" },
+  { seatNo: 13, chineseName: "林俞涵", englishName: "Lim Yu Han", studentId: "250244", position: "美化干事" },
+  { seatNo: 14, chineseName: "罗巧珺", englishName: "Loh Qiao Jun", studentId: "250107", position: "体育干事" },
+  { seatNo: 15, chineseName: "施妮", englishName: "Raashini A/P Prabagaran", studentId: "250108", position: "班长" },
+  { seatNo: 16, chineseName: "吴晴螢", englishName: "Ng Qing Ying", studentId: "250109", position: "图书干事" },
+  { seatNo: 17, chineseName: "吴韦欣", englishName: "Ng Wei Xin", studentId: "250110", position: "辅导干事" },
+  { seatNo: 18, chineseName: "许茹棠", englishName: "Khor Ru Thang", studentId: "250250", position: "食堂小组" },
+  { seatNo: 19, chineseName: "许芷绮", englishName: "Koh Zhi Qi", studentId: "250111", position: "多媒体干事" },
+  { seatNo: 20, chineseName: "杨芷嫣", englishName: "Themis Yong Zhi Yan", studentId: "250112", position: "美化干事" },
+  { seatNo: 21, chineseName: "曾千芸", englishName: "Chan Qian Yun", studentId: "250253", position: "美术干事" },
+  { seatNo: 22, chineseName: "张语轩", englishName: "Teo Yi Xian", studentId: "250114", position: "文书干事" },
+  { seatNo: 23, chineseName: "钟靓雅", englishName: "Choong Jin Ya", studentId: "250115", position: "电脑干事" },
+  { seatNo: 24, chineseName: "陈健霖", englishName: "Tan Jian Lin", studentId: "250116", position: "电脑干事" },
+  { seatNo: 25, chineseName: "陈俊佑", englishName: "Tan Jun Yew", studentId: "250117", position: "数学干事" },
+  { seatNo: 26, chineseName: "陈儁天", englishName: "Martin Tan Jun Tin", studentId: "250258", position: "英文干事" },
+  { seatNo: 27, chineseName: "方耀节", englishName: "Hong Yao Keat", studentId: "250119", position: "体育干事" },
+  { seatNo: 28, chineseName: "郭禹辰", englishName: "Quek Yu Chen", studentId: "250121", position: "财政干事" },
+  { seatNo: 29, chineseName: "黄俊宇", englishName: "Ooi Jun Yu", studentId: "250122", position: "服务干事" },
+  { seatNo: 30, chineseName: "李俊哲", englishName: "Adriel Lee Jun Zhe", studentId: "250123", position: "服务干事" },
+  { seatNo: 31, chineseName: "李汶轩", englishName: "Lee Wen Xuan", studentId: "250124", position: "宣导干事" },
+  { seatNo: 32, chineseName: "麦嘉宸", englishName: "Mak Jia Chen", studentId: "250125", position: "历史干事" },
+  { seatNo: 33, chineseName: "莫壮杰", englishName: "Mok Zhuang Jie", studentId: "250126", position: "卫生干事" },
+  { seatNo: 34, chineseName: "钱峻恒", englishName: "Chin Chun Heng", studentId: "250127", position: "环保干事" },
+  { seatNo: 35, chineseName: "孙庭康", englishName: "Seng Thing Kang", studentId: "250129", position: "风纪" },
+  { seatNo: 36, chineseName: "温日善", englishName: "Ethan Voon Zi Xuan", studentId: "250130", position: "国文干事" },
+  { seatNo: 37, chineseName: "吴宇斌", englishName: "Goh Yu Bing", studentId: "250273", position: "电脑干事" },
+  { seatNo: 38, chineseName: "谢雨泽", englishName: "Chia Yu Ze", studentId: "250131", position: "卫生干事" },
+  { seatNo: 39, chineseName: "杨子庆", englishName: "Yau Zi Qing", studentId: "250279", position: "地理干事" },
+  { seatNo: 40, chineseName: "余俊辰", englishName: "Er Jun Chen", studentId: "250135", position: "宣导干事" },
+  { seatNo: 41, chineseName: "张博斐", englishName: "Chong Bo Fei", studentId: "250136", position: "财政干事" },
+  { seatNo: 42, chineseName: "张家睿", englishName: "Chong Jia Rui", studentId: "250137", position: "图书干事" },
+  { seatNo: 43, chineseName: "张盛源", englishName: "Aiden Tiu Sheng Guan", studentId: "250138", position: "历史干事" },
+  { seatNo: 44, chineseName: "张垣熙", englishName: "Chong Yenn Xxi", studentId: "250139", position: "科学干事" },
+  { seatNo: 45, chineseName: "张正睿", englishName: "Novem Chong Zheng Rui", studentId: "250140", position: "风纪" },
+  { seatNo: 46, chineseName: "郑子宸", englishName: "Jeremy Tey Tze Chen", studentId: "250141", position: "班长" },
+];
