@@ -54,7 +54,7 @@ export const HomeworkProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const addHomework = (data: Omit<HomeworkItem, 'homeworkId' | 'assignedDate' | 'status'>) => {
     const now = new Date();
     const formattedDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-    
+
     const newHomework: HomeworkItem = {
       ...data,
       homeworkId: `HW${Date.now().toString().slice(-6)}`,

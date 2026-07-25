@@ -125,10 +125,6 @@ const LoginPage: React.FC = () => {
                   <UserCheck size={14} />
                   教师登录
                 </TabsTrigger>
-                <TabsTrigger value="assistant" className="text-xs py-2 gap-1">
-                  <ShieldCheck size={14} />
-                  助教登录
-                </TabsTrigger>
               </TabsList>
 
               {/* Student Login Form */}
@@ -218,90 +214,12 @@ const LoginPage: React.FC = () => {
               </TabsContent>
 
               {/* Assistant Login Form */}
-              <TabsContent value="assistant">
-                <form onSubmit={handleAssistantSubmit} className="space-y-4">
-                  <div className="space-y-1.5">
-                    <Label htmlFor="assistantId" className="text-xs font-medium">
-                      助教编号 (Assistant ID) <span className="text-destructive">*</span>
-                    </Label>
-                    <Input
-                      id="assistantId"
-                      placeholder="例：TA001"
-                      value={assistantId}
-                      onChange={(e) => setAssistantId(e.target.value)}
-                      required
-                      className="h-10 text-sm"
-                    />
-                    <p className="text-[11px] text-muted-foreground">
-                      例如：TA001（林美美助教）
-                    </p>
-                  </div>
-
-                  <div className="space-y-1.5">
-                    <Label htmlFor="assistantPassword" className="text-xs font-medium">
-                      密码
-                    </Label>
-                    <Input
-                      id="assistantPassword"
-                      type="password"
-                      placeholder="默认密码：123456"
-                      value={assistantPassword}
-                      onChange={(e) => setAssistantPassword(e.target.value)}
-                      className="h-10 text-sm"
-                    />
-                  </div>
-
-                  <Button type="submit" className="w-full h-10 font-semibold gap-2">
-                    登录助教中心 <ArrowRight size={16} />
-                  </Button>
-                </form>
-              </TabsContent>
             </Tabs>
           </CardContent>
         </Card>
 
         {/* Quick Demo Login Helpers */}
-        <div className="rounded-xl border border-border/80 bg-secondary/40 p-4 space-y-3">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider flex items-center gap-1">
-              ⚡ 快捷测试体验账号
-            </span>
-            <Badge variant="outline" className="text-[10px] bg-background">
-              一键免密
-            </Badge>
-          </div>
-          <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => handleQuickLogin("teacher", "T004")}
-              className="text-xs h-auto py-2 flex flex-col items-center justify-center text-center bg-card hover:bg-primary/10 hover:border-primary"
-            >
-              <span className="font-semibold text-foreground">李佩清 老师</span>
-              <span className="text-[10px] text-muted-foreground">T004 (数学)</span>
-            </Button>
 
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => handleQuickLogin("student", "250095", 1)}
-              className="text-xs h-auto py-2 flex flex-col items-center justify-center text-center bg-card hover:bg-primary/10 hover:border-primary"
-            >
-              <span className="font-semibold text-foreground">陈伊萱 同学</span>
-              <span className="text-[10px] text-muted-foreground">01号 (250095)</span>
-            </Button>
-
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => handleQuickLogin("assistant", "TA001")}
-              className="text-xs h-auto py-2 flex flex-col items-center justify-center text-center bg-card hover:bg-primary/10 hover:border-primary"
-            >
-              <span className="font-semibold text-foreground">林美美 助教</span>
-              <span className="text-[10px] text-muted-foreground">TA001 (理科组)</span>
-            </Button>
-          </div>
-        </div>
       </div>
     </div>
   );
