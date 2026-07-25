@@ -20,9 +20,9 @@ export const timetable: TimetableEntry[] = [
   { time: "1120-1200", monday: "数学 Maths", tuesday: "品德素养 Moral", wednesday: "华文 Chinese", thursday: "国文 Malay", friday: "英文 English" },
   { time: "1200-1250", monday: "", tuesday: "", wednesday: "", thursday: "", friday: "", isRecess: true },
   { time: "1250-1330", monday: "华文 Chinese", tuesday: "科学 Science", wednesday: "地理 Geography", thursday: "地理 Geography", friday: "国文 Malay" },
-  { time: "1330-1410", fridayTime: "1340-1410", monday: "英文 English", tuesday: "数学 Maths", wednesday: "英文 English", thursday: "英文 English", friday: "联课活动 Curricular Activities" },
+  { time: "1330-1410", fridayTime: "1340-1420", monday: "英文 English", tuesday: "数学 Maths", wednesday: "英文 English", thursday: "英文 English", friday: "联课活动 Curricular Activities" },
   { time: "1410-1420", monday: "", tuesday: "", wednesday: "", thursday: "", friday: "", isRecess: true },
-  { time: "1420-1500", fridayTime: "1410-1450", monday: "地理 Geography", tuesday: "华文 Chinese", wednesday: "-", thursday: "历史 History", friday: "联课活动 Curricular Activities" },
+  { time: "1420-1500", fridayTime: "1420-1500", monday: "地理 Geography", tuesday: "华文 Chinese", wednesday: "-", thursday: "历史 History", friday: "联课活动 Curricular Activities" },
   { time: "1500-1540", fridayTime: "1450-1540", monday: "历史 History", tuesday: "英文 English", wednesday: "-", thursday: "科学 Science", friday: "联课活动 Curricular Activities" },
 ];
 
