@@ -26,17 +26,17 @@ const StudentList = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b pb-4">
         <div>
           <div className="flex items-center gap-2">
-            <h1 className="text-3xl font-bold tracking-tight">J203 班级名单</h1>
+            <h1 className="text-3xl font-bold tracking-tight">J203 Class List</h1>
             <Badge variant="outline" className="text-xs text-primary border-primary/30">
-              班级: J203
+              Class: J203
             </Badge>
           </div>
           <p className="text-sm text-muted-foreground mt-1">
-            包含 46 位同学的座号、姓名、学号与班级干事职位
+            Includes seat numbers, names, student IDs and class positions for 46 students
           </p>
         </div>
         <Badge variant="default" className="text-xs px-3 py-1 font-semibold">
-          全班共 {ALL_STUDENTS.length} 人
+          Total {ALL_STUDENTS.length} students
         </Badge>
       </div>
 
@@ -44,7 +44,7 @@ const StudentList = () => {
       <div className="relative max-w-sm">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={16} />
         <Input
-          placeholder="搜索姓名、座号 (如 01) 或学号…"
+          placeholder="Search name, seat number (e.g., 01) or student ID…"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           className="pl-9 text-sm"
@@ -56,11 +56,11 @@ const StudentList = () => {
         <Table>
           <TableHeader className="bg-secondary/40">
             <TableRow>
-              <TableHead className="w-20 font-semibold text-xs">座号</TableHead>
-              <TableHead className="font-semibold text-xs">中文名</TableHead>
-              <TableHead className="font-semibold text-xs">英文名</TableHead>
-              <TableHead className="font-semibold text-xs">学生编号 (ID)</TableHead>
-              <TableHead className="font-semibold text-xs">班级职位</TableHead>
+              <TableHead className="w-20 font-semibold text-xs">Seat No.</TableHead>
+              <TableHead className="font-semibold text-xs">Chinese Name</TableHead>
+              <TableHead className="font-semibold text-xs">English Name</TableHead>
+              <TableHead className="font-semibold text-xs">Student ID</TableHead>
+              <TableHead className="font-semibold text-xs">Position</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -86,7 +86,7 @@ const StudentList = () => {
             {filtered.length === 0 && (
               <TableRow>
                 <TableCell colSpan={5} className="py-12 text-center text-muted-foreground">
-                  没有找到匹配的 J203 学生记录
+                  No matching J203 student records found
                 </TableCell>
               </TableRow>
             )}

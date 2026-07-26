@@ -20,20 +20,20 @@ const Instructors = () => {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b pb-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">J203 教师团队</h1>
+          <h1 className="text-3xl font-bold tracking-tight">J203 Teaching Team</h1>
           <p className="text-sm text-muted-foreground mt-1">
-            包含固定教师编号 T001 - T011 与助教编制（TA001 - TA002）
+            Includes fixed teacher IDs T001 - T011 and teaching assistant positions (TA001 - TA002)
           </p>
         </div>
         <Badge variant="outline" className="text-xs px-3 py-1 font-semibold text-primary">
-          共 {TEACHERS_LIST.length} 位教学人员
+          {TEACHERS_LIST.length} teaching staff
         </Badge>
       </div>
 
       <div className="relative max-w-sm">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={16} />
         <Input
-          placeholder="搜索教师编号 (如 T004)、姓名或科目…"
+          placeholder="Search teacher ID (e.g., T004), name or subject…"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           className="pl-9"
@@ -50,14 +50,14 @@ const Instructors = () => {
               <Badge variant="default" className="font-mono text-xs px-2.5 py-0.5">
                 {t.teacherId}
               </Badge>
-              <Badge variant={t.role === "助教" ? "outline" : "secondary"} className="text-xs">
-                {t.role === "助教" ? (
+              <Badge variant={t.role === "Teaching Assistant" ? "outline" : "secondary"} className="text-xs">
+                {t.role === "Teaching Assistant" ? (
                   <span className="flex items-center gap-1 text-emerald-600">
-                    <ShieldCheck size={12} /> 助教
+                    <ShieldCheck size={12} /> Teaching Assistant
                   </span>
                 ) : (
                   <span className="flex items-center gap-1">
-                    <UserCheck size={12} /> 科任教师
+                    <UserCheck size={12} /> Subject Teacher
                   </span>
                 )}
               </Badge>
@@ -77,7 +77,7 @@ const Instructors = () => {
             <div className="flex items-center gap-2 text-xs text-muted-foreground pt-2 border-t">
               <Instagram size={14} className="text-muted-foreground shrink-0" />
               <span className="truncate">
-                {t.ig ?? "官方联络账号"}
+                {t.ig ?? "Official contact account"}
               </span>
             </div>
           </div>
@@ -85,7 +85,7 @@ const Instructors = () => {
 
         {filtered.length === 0 && (
           <p className="col-span-full py-12 text-center text-muted-foreground">
-            没有找到匹配的教师信息
+            No matching teacher information found
           </p>
         )}
       </div>

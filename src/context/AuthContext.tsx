@@ -1,13 +1,12 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { User, UserRole } from '@/types';
+import { User } from '@/types';
 import { ALL_STUDENTS, TEACHERS_LIST } from '@/data/mockData';
 
 interface AuthContextType {
   user: User | null;
   loginAsStudent: (studentIdInput: string, seatNumberInput: string) => { success: boolean; message: string };
   loginAsTeacher: (teacherIdInput: string, passwordInput: string) => { success: boolean; message: string };
-  loginAsAssistant: (assistantIdInput: string, passwordInput: string) => { success: boolean; message: string };
-  quickLogin: (type: 'student' | 'teacher' | 'assistant', id: string, seatNo?: number) => void;
+  quickLogin: (type: 'student' | 'teacher', id: string, seatNo?: number) => void;
   logout: () => void;
 }
 
@@ -36,12 +35,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const loginAsStudent = (studentIdInput: string, seatNumberInput: string) => {
     const seat = parseInt(seatNumberInput, 10);
     if (isNaN(seat) || seat < 1 || seat > 46) {
-      return { success: false, message: '请输入有效的座号 (1 - 46)' };
+      return { success: false, message: 'Please enter a valid seat number (1 - 46)' };
     }
 
     const cleanIdInput = studentIdInput.trim().toUpperCase();
 
-    // Check student in J203 list
     const student = ALL_STUDENTS.find((s) => {
       const seatMatch = s.seatNo === seat;
       const formattedSeat = seat < 10 ? `0${seat}` : `${seat}`;
@@ -51,7 +49,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     });
 
     if (!student) {
-      return { success: false, message: '学生编号与座号不匹配，请核对 J203 班级名单' };
+      return { success: false, message: 'Student ID and seat number do not match. Please check the J203 class list.' };
     }
 
     const newUser: User = {
@@ -65,7 +63,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
 
     setUser(newUser);
-    return { success: true, message: `欢迎回来，${student.chineseName}同学！` };
+    return { success: true, message: `Welcome back, ${student.chineseName}!` };
   };
 
   const loginAsTeacher = (teacherIdInput: string, passwordInput: string) => {
@@ -73,48 +71,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const teacher = TEACHERS_LIST.find((t) => t.teacherId === cleanId);
 
     if (!teacher) {
-      return { success: false, message: '未找到该教师编号 (请输入 T001 - T011)' };
-    }
-
-    if (passwordInput && passwordInput !== '123456' && passwordInput.trim() !== '') {
-      // Allow any or 123456 for easy access
+      return { success: false, message: 'Teacher ID not found (please enter T001 - T011)' };
     }
 
     const newUser: User = {
       id: teacher.teacherId,
       name: teacher.name,
-      role: teacher.role === '助教' ? 'assistant' : 'teacher',
+      role: 'teacher',
       classId: 'J203',
       teacherId: teacher.teacherId,
       subjects: teacher.subjects,
     };
 
     setUser(newUser);
-    return { success: true, message: `欢迎回来，${teacher.name}老师！` };
+    return { success: true, message: `Welcome back, ${teacher.name}!` };
   };
 
-  const loginAsAssistant = (assistantIdInput: string, passwordInput: string) => {
-    const cleanId = assistantIdInput.trim().toUpperCase();
-    const assistant = TEACHERS_LIST.find((t) => t.teacherId === cleanId || (cleanId.startsWith('TA') && t.role === '助教'));
-
-    if (!assistant) {
-      return { success: false, message: '未找到该助教编号 (如 TA001, TA002)' };
-    }
-
-    const newUser: User = {
-      id: assistant.teacherId,
-      name: assistant.name,
-      role: 'assistant',
-      classId: 'J203',
-      teacherId: assistant.teacherId,
-      subjects: assistant.subjects,
-    };
-
-    setUser(newUser);
-    return { success: true, message: `欢迎回来，${assistant.name}助教！` };
-  };
-
-  const quickLogin = (type: 'student' | 'teacher' | 'assistant', id: string, seatNo?: number) => {
+  const quickLogin = (type: 'student' | 'teacher', id: string, seatNo?: number) => {
     if (type === 'student') {
       const student = ALL_STUDENTS.find(s => s.seatNo === (seatNo || 1) || s.studentId === id);
       if (student) {
@@ -129,11 +102,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         });
       }
     } else {
-      const t = TEACHERS_LIST.find(teacher => teacher.teacherId === id) || TEACHERS_LIST[3]; // default T004
+      const t = TEACHERS_LIST.find(teacher => teacher.teacherId === id) || TEACHERS_LIST[3];
       setUser({
         id: t.teacherId,
         name: t.name,
-        role: type === 'assistant' ? 'assistant' : (t.role === '助教' ? 'assistant' : 'teacher'),
+        role: 'teacher',
         classId: 'J203',
         teacherId: t.teacherId,
         subjects: t.subjects,
@@ -146,7 +119,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   return (
-    <AuthContext.Provider value={{ user, loginAsStudent, loginAsTeacher, loginAsAssistant, quickLogin, logout }}>
+    <AuthContext.Provider value={{ user, loginAsStudent, loginAsTeacher, quickLogin, logout }}>
       {children}
     </AuthContext.Provider>
   );
@@ -159,3 +132,4 @@ export const useAuth = () => {
   }
   return context;
 };
+

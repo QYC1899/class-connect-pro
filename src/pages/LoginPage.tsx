@@ -1,17 +1,18 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
+import { useLanguage } from "@/context/LanguageContext";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Badge } from "@/components/ui/badge";
-import { BookOpen, UserCheck, ShieldCheck, GraduationCap, ArrowRight, AlertCircle } from "lucide-react";
+import { UserCheck, GraduationCap, ArrowRight, AlertCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const LoginPage: React.FC = () => {
-  const { loginAsStudent, loginAsTeacher, loginAsAssistant, quickLogin } = useAuth();
+  const { loginAsStudent, loginAsTeacher, quickLogin } = useAuth();
+  const { t } = useLanguage();
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -23,22 +24,18 @@ const LoginPage: React.FC = () => {
   const [teacherId, setTeacherId] = useState("");
   const [teacherPassword, setTeacherPassword] = useState("");
 
-  // Assistant Form
-  const [assistantId, setAssistantId] = useState("");
-  const [assistantPassword, setAssistantPassword] = useState("");
-
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleStudentSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMessage("");
     if (!seatNumber) {
-      setErrorMessage("请填写座号");
+      setErrorMessage(t("login.error_required_seat"));
       return;
     }
     const res = loginAsStudent(studentId, seatNumber);
     if (res.success) {
-      toast({ title: "登录成功", description: res.message });
+      toast({ title: t("login.success_student"), description: res.message });
       navigate("/");
     } else {
       setErrorMessage(res.message);
@@ -49,37 +46,21 @@ const LoginPage: React.FC = () => {
     e.preventDefault();
     setErrorMessage("");
     if (!teacherId) {
-      setErrorMessage("请填写教师编号 (T001 - T011)");
+      setErrorMessage(t("login.error_required_teacher"));
       return;
     }
     const res = loginAsTeacher(teacherId, teacherPassword);
     if (res.success) {
-      toast({ title: "登录成功", description: res.message });
+      toast({ title: t("login.success_teacher"), description: res.message });
       navigate("/");
     } else {
       setErrorMessage(res.message);
     }
   };
 
-  const handleAssistantSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setErrorMessage("");
-    if (!assistantId) {
-      setErrorMessage("请填写助教编号 (如 TA001)");
-      return;
-    }
-    const res = loginAsAssistant(assistantId, assistantPassword);
-    if (res.success) {
-      toast({ title: "登录成功", description: res.message });
-      navigate("/");
-    } else {
-      setErrorMessage(res.message);
-    }
-  };
-
-  const handleQuickLogin = (type: "student" | "teacher" | "assistant", id: string, seatNo?: number) => {
+  const handleQuickLogin = (type: "student" | "teacher", id: string, seatNo?: number) => {
     quickLogin(type, id, seatNo);
-    toast({ title: "快速登录成功", description: "已以测试账号身份登录系统" });
+    toast({ title: t("login.quick_success"), description: t("login.quick_desc") });
     navigate("/");
   };
 
@@ -95,16 +76,16 @@ const LoginPage: React.FC = () => {
             Class Connect Pro
           </h1>
           <p className="text-sm text-muted-foreground">
-            J203 教学管理平台 · 请选择身份并登录
+            {t("app.subtitle")}
           </p>
         </div>
 
         {/* Login Tabs */}
         <Card className="shadow-xl border-border/60 backdrop-blur-sm bg-card/95">
           <CardHeader className="pb-3 text-center">
-            <CardTitle className="text-lg">身份验证</CardTitle>
+            <CardTitle className="text-lg">{t("login.title")}</CardTitle>
             <CardDescription className="text-xs">
-              学生无需密码，凭学生编号与座号验证登录
+              {t("login.subtitle")}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -116,14 +97,14 @@ const LoginPage: React.FC = () => {
             )}
 
             <Tabs defaultValue="student" className="w-full" onValueChange={() => setErrorMessage("")}>
-              <TabsList className="grid w-full grid-cols-3 mb-6">
+              <TabsList className="grid w-full grid-cols-2 mb-6">
                 <TabsTrigger value="student" className="text-xs py-2 gap-1">
                   <GraduationCap size={14} />
-                  学生登录
+                  {t("login.student_tab")}
                 </TabsTrigger>
                 <TabsTrigger value="teacher" className="text-xs py-2 gap-1">
                   <UserCheck size={14} />
-                  教师登录
+                  {t("login.teacher_tab")}
                 </TabsTrigger>
               </TabsList>
 
@@ -132,29 +113,29 @@ const LoginPage: React.FC = () => {
                 <form onSubmit={handleStudentSubmit} className="space-y-4">
                   <div className="space-y-1.5">
                     <Label htmlFor="studentId" className="text-xs font-medium">
-                      学生编号 (Student ID)
+                      {t("login.student_id")}
                     </Label>
                     <Input
                       id="studentId"
-                      placeholder="例：J203001 或 250095"
+                      placeholder={t("login.student_id_placeholder")}
                       value={studentId}
                       onChange={(e) => setStudentId(e.target.value)}
                       className="h-10 text-sm"
                     />
                     <p className="text-[11px] text-muted-foreground">
-                      可输入学号（如 250095）或班级学号（如 J203001）
+                      {t("login.student_id_hint")}
                     </p>
                   </div>
 
                   <div className="space-y-1.5">
                     <Label htmlFor="seatNumber" className="text-xs font-medium">
-                      座号 (Seat Number) <span className="text-destructive">*</span>
+                      {t("login.seat_number")} <span className="text-destructive">*</span>
                     </Label>
 
                     <Input
                       id="seatNumber"
                       type="number"
-                      placeholder="例：01"
+                      placeholder={t("login.seat_placeholder")}
                       value={seatNumber}
                       onChange={(e) => setSeatNumber(e.target.value)}
                       min={1}
@@ -163,12 +144,12 @@ const LoginPage: React.FC = () => {
                       className="h-10 text-sm"
                     />
                     <p className="text-[11px] text-muted-foreground">
-                      J203 班级座号范围为 1 至 46
+                      {t("login.seat_hint")}
                     </p>
                   </div>
 
                   <Button type="submit" className="w-full h-10 font-semibold gap-2">
-                    登录学生主页 <ArrowRight size={16} />
+                    {t("login.student_submit")} <ArrowRight size={16} />
                   </Button>
                 </form>
               </TabsContent>
@@ -178,29 +159,29 @@ const LoginPage: React.FC = () => {
                 <form onSubmit={handleTeacherSubmit} className="space-y-4">
                   <div className="space-y-1.5">
                     <Label htmlFor="teacherId" className="text-xs font-medium">
-                      教师编号 (Teacher ID) <span className="text-destructive">*</span>
+                      {t("login.teacher_id")} <span className="text-destructive">*</span>
                     </Label>
                     <Input
                       id="teacherId"
-                      placeholder="例：T004 (李佩清老师)"
+                      placeholder={t("login.teacher_id_placeholder")}
                       value={teacherId}
                       onChange={(e) => setTeacherId(e.target.value)}
                       required
                       className="h-10 text-sm"
                     />
                     <p className="text-[11px] text-muted-foreground">
-                      教师编号范围：T001 至 T011
+                      {t("login.teacher_id_hint")}
                     </p>
                   </div>
 
                   <div className="space-y-1.5">
                     <Label htmlFor="teacherPassword" className="text-xs font-medium">
-                      密码
+                      {t("login.password")}
                     </Label>
                     <Input
                       id="teacherPassword"
                       type="password"
-                      placeholder="默认密码：123456"
+                      placeholder={t("login.password_placeholder")}
                       value={teacherPassword}
                       onChange={(e) => setTeacherPassword(e.target.value)}
                       className="h-10 text-sm"
@@ -208,21 +189,18 @@ const LoginPage: React.FC = () => {
                   </div>
 
                   <Button type="submit" className="w-full h-10 font-semibold gap-2">
-                    登录教师工作台 <ArrowRight size={16} />
+                    {t("login.teacher_submit")} <ArrowRight size={16} />
                   </Button>
                 </form>
               </TabsContent>
 
-              {/* Assistant Login Form */}
             </Tabs>
           </CardContent>
         </Card>
-
-        {/* Quick Demo Login Helpers */}
-
       </div>
     </div>
   );
 };
 
 export default LoginPage;
+

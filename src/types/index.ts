@@ -1,5 +1,36 @@
 export type UserRole = 'student' | 'teacher';
 
+export type ContentCategory = 'quiz' | 'homework' | 'project' | 'announcement';
+
+export const subjectAssistants = [
+  "Chinese Assistant",
+  "English Assistant",
+  "Malay Assistant",
+  "Mathematics Assistant",
+  "Science Assistant",
+  "History Assistant",
+  "Geography Assistant",
+  "Computer Assistant",
+  "Art Assistant",
+  "Physical Education Assistant",
+];
+
+export const classAssistants = [
+  "Class Monitor",
+  "Discipline",
+  "Treasurer",
+  "Counseling Assistant",
+  "Secretary",
+  "Librarian",
+  "Multimedia Assistant",
+  "Beautification",
+  "Canteen Group",
+  "Service",
+  "Publicity",
+  "Hygiene",
+  "Environmental",
+];
+
 export interface User {
   id: string;
   name: string;
@@ -9,7 +40,7 @@ export interface User {
   studentId?: string;
   teacherId?: string;
   subjects?: string[];
-  position?: string; // 干事职位，如：科学干事、班长、华文干事
+  position?: string; // Position such as: Science Assistant, Class Monitor, Chinese Assistant
 }
 
 export interface StudentItem {
@@ -25,35 +56,33 @@ export interface TeacherItem {
   teacherId: string;
   name: string;
   subjects: string[];
-  role: '教师';
+  role: 'Teacher' | 'Teaching Assistant';
   ig?: string | null;
 }
 
-export interface HomeworkItem {
-  homeworkId: string;
+export interface ContentItem {
+  contentId: string;
+  category: ContentCategory;
   title: string;
-  description: string; // 功课详情
-  subject: string;
+  description: string; // Homework details
+  subject?: string; // Subject - can be filled by subject assistants or teachers
   classId: string;
   assignerId: string;
-  assignerName: string; // 发布者
-  assignerRole: string; // 发布者身份，如：教师、科学干事、班长
-  assignedDate: string; // 发布日期
-  deadline: string; // 呈交日期
+  assignerName: string; // Publisher name
+  assignerRole: string; // Publisher role such as: Teacher, Science Assistant, Class Monitor
+  assignedDate: string; // Publish date
+  deadline: string; // Submission date
   attachment?: string | null;
-  status: '发布中' | '已截止';
+  status: 'Published' | 'Closed';
 }
 
-export interface SubmissionItem {
-  submissionId: string;
-  homeworkId: string;
+export interface ReadStatusItem {
+  readId: string;
+  contentId: string;
   studentId: string;
   studentName: string;
   seatNumber: number;
-  submittedDate?: string;
-  file?: string;
-  note?: string;
-  status: '未提交' | '已提交' | '迟交' | '已批改';
-  score?: number | null;
-  comment?: string | null;
+  isRead: boolean;
+  readDate?: string;
 }
+

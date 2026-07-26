@@ -9,26 +9,48 @@ export interface TimetableEntry {
   isRecess?: boolean;
 }
 
-export const timetable: TimetableEntry[] = [
-  { time: "0730-0810", monday: "科学 Science", tuesday: "辅导活动 Counseling Activities", wednesday: "电脑 Computer Science", thursday: "数学 Maths", friday: "历史 History" },
-  { time: "0810-0850", monday: "科学 Science", tuesday: "美术 Art", wednesday: "电脑 Computer Science", thursday: "数学 Maths", friday: "体育 P.E." },
+// Monday-Thursday schedule (14 periods)
+export const monThuTimetable: TimetableEntry[] = [
+  { time: "0730-0810", monday: "Science", tuesday: "Counseling Activities", wednesday: "Computer Science", thursday: "Mathematics", friday: "" },
+  { time: "0810-0850", monday: "Science", tuesday: "Art", wednesday: "Computer Science", thursday: "Mathematics", friday: "" },
   { time: "0850-0910", monday: "", tuesday: "", wednesday: "", thursday: "", friday: "", isRecess: true },
-  { time: "0910-0950", monday: "国文 Malay", tuesday: "自主阅读 Self Reading", wednesday: "数学 Maths", thursday: "华文 Chinese", friday: "数学 Maths" },
-  { time: "0950-1030", monday: "华文 Chinese", tuesday: "国文 Malay", wednesday: "科学 Science", thursday: "华文 Chinese", friday: "科学 Science" },
+  { time: "0910-0950", monday: "Malay", tuesday: "Self Reading", wednesday: "Mathematics", thursday: "Chinese", friday: "" },
+  { time: "0950-1030", monday: "Chinese", tuesday: "Malay", wednesday: "Science", thursday: "Chinese", friday: "" },
   { time: "1030-1040", monday: "", tuesday: "", wednesday: "", thursday: "", friday: "", isRecess: true },
-  { time: "1040-1120", monday: "周会/班会 Assembly", tuesday: "品德素养 Moral", wednesday: "国文 Malay", thursday: "国文 Malay", friday: "华文 Chinese" },
-  { time: "1120-1200", monday: "数学 Maths", tuesday: "品德素养 Moral", wednesday: "华文 Chinese", thursday: "国文 Malay", friday: "英文 English" },
+  { time: "1040-1120", monday: "Assembly", tuesday: "Moral Education", wednesday: "Malay", thursday: "Malay", friday: "" },
+  { time: "1120-1200", monday: "Mathematics", tuesday: "Moral Education", wednesday: "Chinese", thursday: "Malay", friday: "" },
   { time: "1200-1250", monday: "", tuesday: "", wednesday: "", thursday: "", friday: "", isRecess: true },
-  { time: "1250-1330", monday: "华文 Chinese", tuesday: "科学 Science", wednesday: "地理 Geography", thursday: "地理 Geography", friday: "国文 Malay" },
-  { time: "1330-1410", fridayTime: "1340-1420", monday: "英文 English", tuesday: "数学 Maths", wednesday: "英文 English", thursday: "英文 English", friday: "联课活动 Curricular Activities" },
+  { time: "1250-1330", monday: "Chinese", tuesday: "Science", wednesday: "Geography", thursday: "Geography", friday: "" },
+  { time: "1330-1410", monday: "English", tuesday: "Mathematics", wednesday: "English", thursday: "English", friday: "" },
   { time: "1410-1420", monday: "", tuesday: "", wednesday: "", thursday: "", friday: "", isRecess: true },
-  { time: "1420-1500", fridayTime: "1420-1500", monday: "地理 Geography", tuesday: "华文 Chinese", wednesday: "-", thursday: "历史 History", friday: "联课活动 Curricular Activities" },
-  { time: "1500-1540", fridayTime: "1500-1540", monday: "历史 History", tuesday: "英文 English", wednesday: "-", thursday: "科学 Science", friday: "联课活动 Curricular Activities" },
+  { time: "1420-1500", monday: "Geography", tuesday: "Chinese", wednesday: "-", thursday: "History", friday: "" },
+  { time: "1500-1540", monday: "History", tuesday: "English", wednesday: "-", thursday: "Science", friday: "" },
 ];
 
+// Friday schedule (separate time slots)
+export const fridayTimetable: TimetableEntry[] = [
+  { time: "0730-0810", fridayTime: "0730-0810", monday: "", tuesday: "", wednesday: "", thursday: "", friday: "History" },
+  { time: "0810-0850", fridayTime: "0810-0850", monday: "", tuesday: "", wednesday: "", thursday: "", friday: "Physical Education" },
+  { time: "0850-0910", fridayTime: "0850-0910", monday: "", tuesday: "", wednesday: "", thursday: "", friday: "", isRecess: true },
+  { time: "0910-0950", fridayTime: "0910-0950", monday: "", tuesday: "", wednesday: "", thursday: "", friday: "Mathematics" },
+  { time: "0950-1030", fridayTime: "0950-1030", monday: "", tuesday: "", wednesday: "", thursday: "", friday: "Science" },
+  { time: "1030-1040", fridayTime: "1030-1040", monday: "", tuesday: "", wednesday: "", thursday: "", friday: "", isRecess: true },
+  { time: "1040-1120", fridayTime: "1040-1120", monday: "", tuesday: "", wednesday: "", thursday: "", friday: "Chinese" },
+  { time: "1120-1200", fridayTime: "1120-1200", monday: "", tuesday: "", wednesday: "", thursday: "", friday: "English" },
+  { time: "1200-1250", fridayTime: "1200-1250", monday: "", tuesday: "", wednesday: "", thursday: "", friday: "", isRecess: true },
+  { time: "1250-1330", fridayTime: "1250-1330", monday: "", tuesday: "", wednesday: "", thursday: "", friday: "Malay" },
+  { time: "1330-1340", fridayTime: "1330-1340", monday: "", tuesday: "", wednesday: "", thursday: "", friday: "", isRecess: true },
+  { time: "1340-1420", fridayTime: "1340-1420", monday: "", tuesday: "", wednesday: "", thursday: "", friday: "Curricular Activities" },
+  { time: "1420-1500", fridayTime: "1420-1500", monday: "", tuesday: "", wednesday: "", thursday: "", friday: "Curricular Activities" },
+  { time: "1500-1540", fridayTime: "1500-1540", monday: "", tuesday: "", wednesday: "", thursday: "", friday: "Curricular Activities" },
+];
+
+// Keep backward compatibility
+export const timetable: TimetableEntry[] = [...monThuTimetable, ...fridayTimetable];
+
+// Maps time slots to translation keys for bilingual recess labels
 export const recessLabels: Record<string, string> = {
-  "0850-0910": "Recess 1 (20 min)",
-  "1030-1040": "Recess 2 (10 min)",
-  "1200-1250": "Recess 3 (50 min)",
-  "1410-1420": "",
+  "0850-0910": "timetable.recess_1",
+  "1030-1040": "timetable.recess_2",
+  "1200-1250": "timetable.recess_3",
 };

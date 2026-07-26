@@ -1,195 +1,199 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { HomeworkItem, SubmissionItem } from '@/types';
-import { INITIAL_HOMEWORKS, INITIAL_SUBMISSIONS, ALL_STUDENTS } from '@/data/mockData';
+import { ContentItem, ReadStatusItem, ContentCategory, subjectAssistants, classAssistants } from '@/types';
+import { INITIAL_CONTENTS, INITIAL_READ_STATUS, ALL_STUDENTS } from '@/data/mockData';
 
 interface HomeworkContextType {
-  homeworks: HomeworkItem[];
-  submissions: SubmissionItem[];
-  addHomework: (homework: Omit<HomeworkItem, 'homeworkId' | 'assignedDate' | 'status'>) => void;
-  updateHomework: (homeworkId: string, data: Partial<HomeworkItem>) => void;
-  deleteHomework: (homeworkId: string) => void;
-  submitHomework: (homeworkId: string, studentId: string, studentName: string, seatNumber: number, file: string, note?: string) => void;
-  gradeSubmission: (homeworkId: string, studentId: string, score: number, comment: string) => void;
-  getHomeworkSubmissionsForRoster: (homeworkId: string) => {
+  contents: ContentItem[];
+  readStatuses: ReadStatusItem[];
+  addContent: (content: Omit<ContentItem, 'contentId' | 'assignedDate' | 'status'>) => { success: boolean; message: string };
+  updateContent: (contentId: string, data: Partial<ContentItem>) => void;
+  deleteContent: (contentId: string) => void;
+  getContentsByCategory: (category: ContentCategory) => ContentItem[];
+  markAsRead: (contentId: string, studentId: string) => void;
+  getReadStatusForContent: (contentId: string) => {
     studentId: string;
     studentName: string;
     seatNumber: number;
-    submission?: SubmissionItem;
-    status: '未提交' | '已提交' | '迟交' | '已批改';
+    isRead: boolean;
+    readDate?: string;
   }[];
+  canUserPublish: (userPosition: string | undefined, userRole: string, category: ContentCategory) => boolean;
+  categoryLabel: (category: ContentCategory) => string;
 }
 
 const HomeworkContext = createContext<HomeworkContextType | undefined>(undefined);
 
-const STORAGE_HW = 'class_connect_pro_homeworks';
-const STORAGE_SUB = 'class_connect_pro_submissions';
+const STORAGE_CONTENTS = 'class_connect_pro_contents';
+const STORAGE_READ = 'class_connect_pro_readstatus';
+
+const isSubjectAssistant = (position: string) => subjectAssistants.includes(position);
+const isClassAssistant = (position: string) => classAssistants.includes(position);
+
+const getCategoryLabel = (category: ContentCategory): string => {
+  const labels: Record<ContentCategory, string> = {
+    quiz: 'Quiz',
+    homework: 'Homework',
+    project: 'Project',
+    announcement: 'Announcement',
+  };
+  return labels[category];
+};
 
 export const HomeworkProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [homeworks, setHomeworks] = useState<HomeworkItem[]>(() => {
+  const [contents, setContents] = useState<ContentItem[]>(() => {
     try {
-      const saved = localStorage.getItem(STORAGE_HW);
-      return saved ? JSON.parse(saved) : INITIAL_HOMEWORKS;
+      const saved = localStorage.getItem(STORAGE_CONTENTS);
+      return saved ? JSON.parse(saved) : INITIAL_CONTENTS;
     } catch {
-      return INITIAL_HOMEWORKS;
+      return INITIAL_CONTENTS;
     }
   });
 
-  const [submissions, setSubmissions] = useState<SubmissionItem[]>(() => {
+  const [readStatuses, setReadStatuses] = useState<ReadStatusItem[]>(() => {
     try {
-      const saved = localStorage.getItem(STORAGE_SUB);
-      return saved ? JSON.parse(saved) : INITIAL_SUBMISSIONS;
+      const saved = localStorage.getItem(STORAGE_READ);
+      return saved ? JSON.parse(saved) : INITIAL_READ_STATUS;
     } catch {
-      return INITIAL_SUBMISSIONS;
+      return INITIAL_READ_STATUS;
     }
   });
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_HW, JSON.stringify(homeworks));
-  }, [homeworks]);
+    localStorage.setItem(STORAGE_CONTENTS, JSON.stringify(contents));
+  }, [contents]);
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_SUB, JSON.stringify(submissions));
-  }, [submissions]);
+    localStorage.setItem(STORAGE_READ, JSON.stringify(readStatuses));
+  }, [readStatuses]);
 
-  const addHomework = (data: Omit<HomeworkItem, 'homeworkId' | 'assignedDate' | 'status'>) => {
+  const addContent = (data: Omit<ContentItem, 'contentId' | 'assignedDate' | 'status'>) => {
     const now = new Date();
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    const currentTimeInMinutes = hours * 60 + minutes;
+    const RESTRICT_START = 20 * 60 + 30;
+    const RESTRICT_END = 6 * 60;
+
+    if (currentTimeInMinutes >= RESTRICT_START || currentTimeInMinutes < RESTRICT_END) {
+      return {
+        success: false,
+        message: 'Cannot publish during this time period (20:30 ~ 06:00 next day). Please publish between 06:00 AM and 20:30 PM.',
+      };
+    }
+
     const formattedDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
 
-    const newHomework: HomeworkItem = {
+    const prefix: Record<ContentCategory, string> = {
+      quiz: 'QZ',
+      homework: 'HW',
+      project: 'PR',
+      announcement: 'AN',
+    };
+
+    const newContent: ContentItem = {
       ...data,
-      homeworkId: `HW${Date.now().toString().slice(-6)}`,
+      contentId: `${prefix[data.category]}${Date.now().toString().slice(-6)}`,
       assignedDate: formattedDate,
-      status: '发布中',
+      status: 'Published',
     };
 
-    setHomeworks((prev) => [newHomework, ...prev]);
+    setContents((prev) => [newContent, ...prev]);
+    return { success: true, message: `${getCategoryLabel(data.category)} published successfully!` };
   };
 
-  const updateHomework = (homeworkId: string, data: Partial<HomeworkItem>) => {
-    setHomeworks((prev) =>
-      prev.map((hw) => (hw.homeworkId === homeworkId ? { ...hw, ...data } : hw))
+  const updateContent = (contentId: string, data: Partial<ContentItem>) => {
+    setContents((prev) =>
+      prev.map((c) => (c.contentId === contentId ? { ...c, ...data } : c))
     );
   };
 
-  const deleteHomework = (homeworkId: string) => {
-    setHomeworks((prev) => prev.filter((hw) => hw.homeworkId !== homeworkId));
-    setSubmissions((prev) => prev.filter((sub) => sub.homeworkId !== homeworkId));
+  const deleteContent = (contentId: string) => {
+    setContents((prev) => prev.filter((c) => c.contentId !== contentId));
+    setReadStatuses((prev) => prev.filter((r) => r.contentId !== contentId));
   };
 
-  const submitHomework = (
-    homeworkId: string,
-    studentId: string,
-    studentName: string,
-    seatNumber: number,
-    file: string,
-    note?: string
-  ) => {
+  const getContentsByCategory = (category: ContentCategory) => {
+    return contents.filter((c) => c.category === category);
+  };
+
+  const markAsRead = (contentId: string, studentId: string) => {
     const now = new Date();
     const formattedDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
 
-    // Check if overdue
-    const targetHw = homeworks.find((h) => h.homeworkId === homeworkId);
-    let isLate = false;
-    if (targetHw && targetHw.deadline) {
-      const deadlineDate = new Date(targetHw.deadline);
-      if (!isNaN(deadlineDate.getTime()) && now > deadlineDate) {
-        isLate = true;
-      }
-    }
-
-    const existingIndex = submissions.findIndex(
-      (s) => s.homeworkId === homeworkId && s.studentId === studentId
+    const existing = readStatuses.find(
+      (r) => r.contentId === contentId && r.studentId === studentId
     );
 
-    const submissionData: SubmissionItem = {
-      submissionId: existingIndex >= 0 ? submissions[existingIndex].submissionId : `SUB_${homeworkId}_${studentId}`,
-      homeworkId,
-      studentId,
-      studentName,
-      seatNumber,
-      submittedDate: formattedDate,
-      file,
-      note,
-      status: isLate ? '迟交' : '已提交',
-      score: existingIndex >= 0 ? submissions[existingIndex].score : null,
-      comment: existingIndex >= 0 ? submissions[existingIndex].comment : null,
-    };
-
-    if (existingIndex >= 0) {
-      setSubmissions((prev) =>
-        prev.map((s, idx) => (idx === existingIndex ? submissionData : s))
+    if (existing) {
+      setReadStatuses((prev) =>
+        prev.map((r) =>
+          r.readId === existing.readId ? { ...r, isRead: true, readDate: formattedDate } : r
+        )
       );
     } else {
-      setSubmissions((prev) => [...prev, submissionData]);
+      const student = ALL_STUDENTS.find((s) => s.studentId === studentId);
+      const newRead: ReadStatusItem = {
+        readId: `READ_${contentId}_${studentId}`,
+        contentId,
+        studentId,
+        studentName: student?.chineseName || 'Student',
+        seatNumber: student?.seatNo || 0,
+        isRead: true,
+        readDate: formattedDate,
+      };
+      setReadStatuses((prev) => [...prev, newRead]);
     }
   };
 
-  const gradeSubmission = (homeworkId: string, studentId: string, score: number, comment: string) => {
-    setSubmissions((prev) => {
-      const existing = prev.find((s) => s.homeworkId === homeworkId && s.studentId === studentId);
-      if (existing) {
-        return prev.map((s) =>
-          s.homeworkId === homeworkId && s.studentId === studentId
-            ? { ...s, score, comment, status: '已批改' }
-            : s
-        );
-      } else {
-        const student = ALL_STUDENTS.find((st) => st.studentId === studentId);
-        return [
-          ...prev,
-          {
-            submissionId: `SUB_${homeworkId}_${studentId}`,
-            homeworkId,
-            studentId,
-            studentName: student ? student.chineseName : '学生',
-            seatNumber: student ? student.seatNo : 0,
-            status: '已批改',
-            score,
-            comment,
-          },
-        ];
-      }
-    });
-  };
-
-  const getHomeworkSubmissionsForRoster = (homeworkId: string) => {
-    const hwSubmissions = submissions.filter((s) => s.homeworkId === homeworkId);
-    const targetHw = homeworks.find((h) => h.homeworkId === homeworkId);
-    const now = new Date();
+  const getReadStatusForContent = (contentId: string) => {
+    const contentReadStatuses = readStatuses.filter((r) => r.contentId === contentId);
 
     return ALL_STUDENTS.map((st) => {
-      const sub = hwSubmissions.find((s) => s.studentId === st.studentId || s.seatNumber === st.seatNo);
-      let status: '未提交' | '已提交' | '迟交' | '已批改' = sub ? sub.status : '未提交';
-
-      // Check if overdue for non-submitted
-      if (!sub && targetHw?.deadline) {
-        const d = new Date(targetHw.deadline);
-        if (!isNaN(d.getTime()) && now > d) {
-          status = '未提交'; // display as unsubmitted / overdue in UI badge
-        }
-      }
-
+      const status = contentReadStatuses.find(
+        (r) => r.studentId === st.studentId || r.seatNumber === st.seatNo
+      );
       return {
         studentId: st.studentId,
         studentName: st.chineseName,
         seatNumber: st.seatNo,
-        submission: sub,
-        status,
+        isRead: status?.isRead || false,
+        readDate: status?.readDate,
       };
     });
+  };
+
+  const canUserPublish = (userPosition: string | undefined, userRole: string, category: ContentCategory): boolean => {
+    if (userRole === 'teacher') return true;
+
+    if (userRole === 'student' && userPosition) {
+      if (category === 'announcement') {
+        return isClassAssistant(userPosition);
+      }
+      if (category === 'quiz' || category === 'homework' || category === 'project') {
+        return isSubjectAssistant(userPosition);
+      }
+    }
+
+    return false;
+  };
+
+  const categoryLabel = (category: ContentCategory): string => {
+    return getCategoryLabel(category);
   };
 
   return (
     <HomeworkContext.Provider
       value={{
-        homeworks,
-        submissions,
-        addHomework,
-        updateHomework,
-        deleteHomework,
-        submitHomework,
-        gradeSubmission,
-        getHomeworkSubmissionsForRoster,
+        contents,
+        readStatuses,
+        addContent,
+        updateContent,
+        deleteContent,
+        getContentsByCategory,
+        markAsRead,
+        getReadStatusForContent,
+        canUserPublish,
+        categoryLabel,
       }}
     >
       {children}
@@ -204,3 +208,4 @@ export const useHomework = () => {
   }
   return context;
 };
+
