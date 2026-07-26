@@ -43,55 +43,55 @@ const Navbar: React.FC = () => {
     <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
         {/* Logo & Brand */}
-        <Link to="/" className="flex items-center gap-2 group shrink-0">
+        <Link to="/" className="flex items-center gap-2 group">
           <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-primary-foreground font-bold text-lg shadow-sm group-hover:scale-105 transition-transform">
             J203
           </div>
-          <div className="hidden sm:flex flex-col min-w-0">
-            <span className="text-base font-bold tracking-tight text-foreground flex items-center gap-1 truncate">
+          <div className="flex flex-col">
+            <span className="text-base font-bold tracking-tight text-foreground flex items-center gap-1">
               Class Connect Pro
-              <Badge variant="outline" className="text-[10px] px-1 py-0 border-primary/30 text-primary shrink-0">
+              <Badge variant="outline" className="text-[10px] px-1 py-0 border-primary/30 text-primary">
                 J203
               </Badge>
             </span>
-            <span className="text-[11px] text-muted-foreground hidden lg:block truncate">
+            <span className="text-[11px] text-muted-foreground hidden sm:block">
               {t("app.subtitle")}
             </span>
           </div>
         </Link>
 
         {/* Navigation Links */}
-        <nav className="hidden md:flex items-center gap-0.5 xl:gap-1 overflow-hidden max-w-[45%]">
-          <Link to="/" className={`${getLinkClass("/")} shrink-0`}>
-            <Home size={16} className="shrink-0" />
-            <span className="truncate">{t("nav.home")}</span>
+        <nav className="hidden md:flex items-center gap-1">
+          <Link to="/" className={getLinkClass("/")}>
+            <Home size={16} />
+            <span>{t("nav.home")}</span>
           </Link>
-          <Link to="/homework" className={`${getLinkClass("/homework")} shrink-0`}>
-            <BookOpen size={16} className="shrink-0" />
-            <span className="truncate">{t("nav.homework")}</span>
+          <Link to="/homework" className={getLinkClass("/homework")}>
+            <BookOpen size={16} />
+            <span>{t("nav.homework")}</span>
           </Link>
-          <Link to="/student" className={`${getLinkClass("/student")} shrink-0`}>
-            <Users size={16} className="shrink-0" />
-            <span className="truncate">{t("nav.students")}</span>
+          <Link to="/student" className={getLinkClass("/student")}>
+            <Users size={16} />
+            <span>{t("nav.students")}</span>
           </Link>
-          <Link to="/instructors" className={`${getLinkClass("/instructors")} shrink-0`}>
-            <GraduationCap size={16} className="shrink-0" />
-            <span className="truncate">{t("nav.teachers")}</span>
+          <Link to="/instructors" className={getLinkClass("/instructors")}>
+            <GraduationCap size={16} />
+            <span>{t("nav.teachers")}</span>
           </Link>
-          <Link to="/timetable" className={`${getLinkClass("/timetable")} shrink-0`}>
-            <CalendarDays size={16} className="shrink-0" />
-            <span className="truncate">{t("nav.timetable")}</span>
+          <Link to="/timetable" className={getLinkClass("/timetable")}>
+            <CalendarDays size={16} />
+            <span>{t("nav.timetable")}</span>
           </Link>
         </nav>
 
         {/* User Identity & Auth Action */}
-        <div className="flex items-center gap-1 shrink-0">
+        <div className="flex items-center gap-2">
           {/* Language Toggle */}
           <Button
             variant="ghost"
             size="sm"
             onClick={toggleLang}
-            className="h-8 px-1.5 gap-1 text-muted-foreground hover:text-foreground"
+            className="h-8 px-2 gap-1 text-muted-foreground hover:text-foreground"
             title={t("lang.toggle")}
           >
             <Languages size={16} />
@@ -99,26 +99,26 @@ const Navbar: React.FC = () => {
           </Button>
 
           {user ? (
-            <div className="flex items-center gap-1">
-              <div className="hidden xl:flex flex-col items-end text-xs min-w-0">
+            <div className="flex items-center gap-2">
+              <div className="hidden sm:flex flex-col items-end text-xs">
                 <span className="font-semibold text-foreground flex items-center gap-1">
-                  <span className="truncate max-w-[100px]">{user.name}</span>
+                  {user.name}
                   {user.role === "student" && user.seatNumber && (
-                    <span className="text-muted-foreground font-normal whitespace-nowrap">
-                      (S{user.seatNumber < 10 ? `0${user.seatNumber}` : user.seatNumber})
+                    <span className="text-muted-foreground font-normal">
+                      ({t("nav.seat_prefix")} {user.seatNumber < 10 ? `0${user.seatNumber}` : user.seatNumber})
                     </span>
                   )}
                 </span>
-                <span className="text-muted-foreground truncate max-w-[120px]">
+                <span className="text-muted-foreground">
                   {user.role === "teacher" && `${t("nav.teacher_id_label")}: ${user.teacherId}`}
                   {user.role === "student" && `${t("nav.student_id_label")}: ${user.studentId}`}
-                  {user.position && ` · ${user.position}`}
+                  {user.position && ` \u00B7 ${user.position}`}
                 </span>
               </div>
 
               <Badge
                 variant={user.role === "student" ? "secondary" : "default"}
-                className="capitalize text-xs py-0.5 px-1.5 truncate max-w-[80px]"
+                className="capitalize text-xs py-0.5 px-2"
               >
                 {user.role === "teacher" ? t("role.teacher") : user.position ? user.position : t("role.student")}
               </Badge>
@@ -127,7 +127,7 @@ const Navbar: React.FC = () => {
                 variant="ghost"
                 size="sm"
                 onClick={handleLogout}
-                className="text-muted-foreground hover:text-destructive hover:bg-destructive/10 h-8 px-1.5 gap-1"
+                className="text-muted-foreground hover:text-destructive hover:bg-destructive/10 h-8 px-2 gap-1"
                 title={t("nav.logout_title")}
               >
                 <LogOut size={16} />
@@ -143,22 +143,23 @@ const Navbar: React.FC = () => {
             </Link>
           )}
         </div>
+      </div>
 
       {/* Mobile Sub-Nav */}
-      <div className="flex md:hidden border-t px-2 py-1.5 justify-around bg-secondary/30 text-xs overflow-x-auto">
-        <Link to="/" className={`px-2 py-1 rounded whitespace-nowrap ${isActive("/") ? "font-bold text-primary" : "text-muted-foreground"}`}>
+      <div className="flex md:hidden border-t px-2 py-1.5 justify-around bg-secondary/30 text-xs">
+        <Link to="/" className={`px-2 py-1 rounded ${isActive("/") ? "font-bold text-primary" : "text-muted-foreground"}`}>
           {t("nav.mobile_home")}
         </Link>
-        <Link to="/homework" className={`px-2 py-1 rounded whitespace-nowrap ${isActive("/homework") ? "font-bold text-primary" : "text-muted-foreground"}`}>
+        <Link to="/homework" className={`px-2 py-1 rounded ${isActive("/homework") ? "font-bold text-primary" : "text-muted-foreground"}`}>
           {t("nav.mobile_homework")}
         </Link>
-        <Link to="/student" className={`px-2 py-1 rounded whitespace-nowrap ${isActive("/student") ? "font-bold text-primary" : "text-muted-foreground"}`}>
+        <Link to="/student" className={`px-2 py-1 rounded ${isActive("/student") ? "font-bold text-primary" : "text-muted-foreground"}`}>
           {t("nav.mobile_class")}
         </Link>
-        <Link to="/instructors" className={`px-2 py-1 rounded whitespace-nowrap ${isActive("/instructors") ? "font-bold text-primary" : "text-muted-foreground"}`}>
+        <Link to="/instructors" className={`px-2 py-1 rounded ${isActive("/instructors") ? "font-bold text-primary" : "text-muted-foreground"}`}>
           {t("nav.mobile_teachers")}
         </Link>
-        <Link to="/timetable" className={`px-2 py-1 rounded whitespace-nowrap ${isActive("/timetable") ? "font-bold text-primary" : "text-muted-foreground"}`}>
+        <Link to="/timetable" className={`px-2 py-1 rounded ${isActive("/timetable") ? "font-bold text-primary" : "text-muted-foreground"}`}>
           {t("nav.mobile_timetable")}
         </Link>
       </div>
@@ -167,3 +168,4 @@ const Navbar: React.FC = () => {
 };
 
 export default Navbar;
+
