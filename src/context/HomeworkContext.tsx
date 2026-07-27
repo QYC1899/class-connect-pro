@@ -27,8 +27,23 @@ const HomeworkContext = createContext<HomeworkContextType | undefined>(undefined
 const STORAGE_CONTENTS = 'class_connect_pro_contents';
 const STORAGE_READ = 'class_connect_pro_readstatus';
 
-const isSubjectAssistant = (position: string) => subjectAssistants.includes(position);
-const isClassAssistant = (position: string) => classAssistants.includes(position);
+// Keep existing English student records working while permissions use the
+// Chinese role names shown to users.
+const legacySubjectAssistants = [
+  'Chinese Assistant', 'English Assistant', 'Malay Assistant', 'Mathematics Assistant',
+  'Science Assistant', 'History Assistant', 'Geography Assistant', 'Computer Assistant',
+  'Art Assistant', 'Physical Education Assistant',
+];
+const legacyClassAssistants = [
+  'Class Monitor', 'Discipline', 'Treasurer', 'Counseling Assistant', 'Secretary',
+  'Librarian', 'Multimedia Assistant', 'Beautification', 'Canteen Group', 'Service',
+  'Publicity', 'Hygiene', 'Environmental',
+];
+
+const isSubjectAssistant = (position: string) =>
+  subjectAssistants.includes(position) || legacySubjectAssistants.includes(position);
+const isClassAssistant = (position: string) =>
+  classAssistants.includes(position) || legacyClassAssistants.includes(position);
 
 const getCategoryLabel = (category: ContentCategory): string => {
   const labels: Record<ContentCategory, string> = {
@@ -230,4 +245,3 @@ export const useHomework = () => {
   }
   return context;
 };
-

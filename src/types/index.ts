@@ -3,32 +3,32 @@ export type UserRole = 'student' | 'teacher';
 export type ContentCategory = 'quiz' | 'homework' | 'project' | 'announcement';
 
 export const subjectAssistants = [
-  "Chinese Assistant",
-  "English Assistant",
-  "Malay Assistant",
-  "Mathematics Assistant",
-  "Science Assistant",
-  "History Assistant",
-  "Geography Assistant",
-  "Computer Assistant",
-  "Art Assistant",
-  "Physical Education Assistant",
+  "华文干事",
+  "英文干事",
+  "国文干事",
+  "数学干事",
+  "科学干事",
+  "历史干事",
+  "地理干事",
+  "电脑干事",
+  "美术干事",
+  "体育干事",
 ];
 
 export const classAssistants = [
-  "Class Monitor",
-  "Discipline",
-  "Treasurer",
-  "Counseling Assistant",
-  "Secretary",
-  "Librarian",
-  "Multimedia Assistant",
-  "Beautification",
-  "Canteen Group",
-  "Service",
-  "Publicity",
-  "Hygiene",
-  "Environmental",
+  "班长",
+  "风纪",
+  "财政干事",
+  "辅导干事",
+  "文书干事",
+  "图书干事",
+  "多媒体干事",
+  "美化干事",
+  "食堂小组",
+  "服务干事",
+  "宣导干事",
+  "卫生干事",
+  "环保干事",
 ];
 
 export interface User {
@@ -85,4 +85,3 @@ export interface ReadStatusItem {
   isRead: boolean;
   readDate?: string;
 }
-

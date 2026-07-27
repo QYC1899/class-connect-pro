@@ -51,7 +51,7 @@ const HOMEWORK_SUBJECTS = [
 
 const HomeworkPage: React.FC = () => {
   const { user } = useAuth();
-  const { contents, addContent, deleteContent, markAsRead, getReadStatusForContent } = useHomework();
+  const { contents, addContent, deleteContent, markAsRead, getReadStatusForContent, canUserPublish } = useHomework();
   const { t, translateSubject, translateCategory } = useLanguage();
   const { toast } = useToast();
 
@@ -71,11 +71,15 @@ const HomeworkPage: React.FC = () => {
 
   const displayContents = contents.filter(c => c.classId === "J203");
   const currentContents = displayContents.filter(c => c.category === activeTab);
-  const canPublish = user.role === "teacher" || (user.position && user.position !== "");
+  const canPublish = canUserPublish(user.position, user.role, activeTab);
   const categoryLabel = translateCategory(activeTab);
 
   const handlePublish = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!canPublish) {
+      toast({ title: t("hw.publish_error"), description: "You do not have permission to publish in this section", variant: "destructive" });
+      return;
+    }
     if (!pubTitle.trim()) {
       toast({ title: t("hw.publish_error"), description: "Please enter a title", variant: "destructive" });
       return;
