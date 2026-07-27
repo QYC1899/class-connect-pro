@@ -33,6 +33,22 @@ const categoryTabs: { key: "quiz" | "homework" | "project" | "announcement"; lab
   { key: "announcement", labelKey: "category.announcement" },
 ];
 
+// Persist a language-neutral value and translate only when rendering it.
+const HOMEWORK_SUBJECTS = [
+  "Mathematics",
+  "Chinese",
+  "Malay",
+  "English",
+  "Science",
+  "History",
+  "Geography",
+  "Moral Education",
+  "Computer",
+  "Physical Education",
+  "Art",
+  "Counseling",
+];
+
 const HomeworkPage: React.FC = () => {
   const { user } = useAuth();
   const { contents, addContent, deleteContent, markAsRead, getReadStatusForContent } = useHomework();
@@ -193,15 +209,11 @@ const HomeworkPage: React.FC = () => {
                         <SelectValue placeholder={t("hw.publish_form.subject_placeholder")} />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="Mathematics">{translateSubject("Mathematics")}</SelectItem>
-                        <SelectItem value="Chinese">{translateSubject("Chinese")}</SelectItem>
-                        <SelectItem value="Malay">{translateSubject("Malay")}</SelectItem>
-                        <SelectItem value="English">{translateSubject("English")}</SelectItem>
-                        <SelectItem value="Science">{translateSubject("Science")}</SelectItem>
-                        <SelectItem value="History">{translateSubject("History")}</SelectItem>
-                        <SelectItem value="Geography">{translateSubject("Geography")}</SelectItem>
-                        <SelectItem value="Moral Education">{translateSubject("Moral Education")}</SelectItem>
-                        <SelectItem value="Computer">{translateSubject("Computer")}</SelectItem>
+                        {HOMEWORK_SUBJECTS.map((subject) => (
+                          <SelectItem key={subject} value={subject}>
+                            {translateSubject(subject)}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                   </div>
@@ -464,4 +476,3 @@ const HomeworkPage: React.FC = () => {
 };
 
 export default HomeworkPage;
-

@@ -305,6 +305,7 @@ export const SUBJECT_KEYS: Record<string, string> = {
   "Physical Education": "subject.physical_education",
   "Art": "subject.art",
   "Counseling Activities": "subject.counseling",
+  "Counseling": "subject.counseling",
   "Assembly": "subject.assembly",
   "Self Reading": "subject.self_reading",
   "Curricular Activities": "subject.curricular_activities",

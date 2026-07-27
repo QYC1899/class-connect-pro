@@ -14,7 +14,9 @@ interface LanguageContextType {
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
-const STORAGE_KEY = 'class_connect_lang';
+// Reset legacy per-origin preferences so localhost and Vercel use the same
+// English default after this translation update.
+const STORAGE_KEY = 'class_connect_lang_v2';
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [lang, setLangState] = useState<Lang>(() => {
