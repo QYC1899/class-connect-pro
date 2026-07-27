@@ -1,11 +1,13 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
-import { Lang, translations, getSubjectKey, CATEGORY_KEYS } from '@/lib/translations';
+import { Lang, translations, getSubjectKey, getPositionKey, getTeacherPositionKey, CATEGORY_KEYS } from '@/lib/translations';
 
 interface LanguageContextType {
   lang: Lang;
   setLang: (lang: Lang) => void;
   t: (key: string, fallback?: string) => string;
   translateSubject: (subject: string) => string;
+  translatePosition: (position: string) => string;
+  translateTeacherPosition: (position: string) => string;
   translateCategory: (categoryKey: string) => string;
   toggleLang: () => void;
 }
@@ -64,8 +66,26 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     return categoryKey;
   }, [lang]);
 
+  const translatePosition = useCallback((position: string): string => {
+    const key = getPositionKey(position);
+    const entry = translations[key];
+    if (entry) {
+      return entry[lang] || entry['zh'] || position;
+    }
+    return position;
+  }, [lang]);
+
+  const translateTeacherPosition = useCallback((position: string): string => {
+    const key = getTeacherPositionKey(position);
+    const entry = translations[key];
+    if (entry) {
+      return entry[lang] || entry['zh'] || position;
+    }
+    return position;
+  }, [lang]);
+
   return (
-    <LanguageContext.Provider value={{ lang, setLang, t, translateSubject, translateCategory, toggleLang }}>
+    <LanguageContext.Provider value={{ lang, setLang, t, translateSubject, translatePosition, translateTeacherPosition, translateCategory, toggleLang }}>
       {children}
     </LanguageContext.Provider>
   );

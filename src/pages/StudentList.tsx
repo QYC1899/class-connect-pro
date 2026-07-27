@@ -6,8 +6,10 @@ import {
 } from "@/components/ui/table";
 import { ALL_STUDENTS } from "@/data/mockData";
 import { Badge } from "@/components/ui/badge";
+import { useLanguage } from "@/context/LanguageContext";
 
 const StudentList = () => {
+  const { t, translatePosition } = useLanguage();
   const [query, setQuery] = useState("");
 
   const filtered = ALL_STUDENTS.filter((s) => {
@@ -26,17 +28,17 @@ const StudentList = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b pb-4">
         <div>
           <div className="flex items-center gap-2">
-            <h1 className="text-3xl font-bold tracking-tight">J203 Class List</h1>
+            <h1 className="text-3xl font-bold tracking-tight">{t("student.title")}</h1>
             <Badge variant="outline" className="text-xs text-primary border-primary/30">
-              Class: J203
+              {t("student.class_badge")}
             </Badge>
           </div>
           <p className="text-sm text-muted-foreground mt-1">
-            Includes seat numbers, names, student IDs and class positions for 46 students
+            {t("student.description")}
           </p>
         </div>
         <Badge variant="default" className="text-xs px-3 py-1 font-semibold">
-          Total {ALL_STUDENTS.length} students
+          {t("student.total").replace("{count}", ALL_STUDENTS.length.toString())}
         </Badge>
       </div>
 
@@ -44,7 +46,7 @@ const StudentList = () => {
       <div className="relative max-w-sm">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={16} />
         <Input
-          placeholder="Search name, seat number (e.g., 01) or student ID…"
+          placeholder={t("student.search_placeholder")}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           className="pl-9 text-sm"
@@ -56,11 +58,11 @@ const StudentList = () => {
         <Table>
           <TableHeader className="bg-secondary/40">
             <TableRow>
-              <TableHead className="w-20 font-semibold text-xs">Seat No.</TableHead>
-              <TableHead className="font-semibold text-xs">Chinese Name</TableHead>
-              <TableHead className="font-semibold text-xs">English Name</TableHead>
-              <TableHead className="font-semibold text-xs">Student ID</TableHead>
-              <TableHead className="font-semibold text-xs">Position</TableHead>
+              <TableHead className="w-20 font-semibold text-xs">{t("student.seat_no")}</TableHead>
+              <TableHead className="font-semibold text-xs">{t("student.chinese_name")}</TableHead>
+              <TableHead className="font-semibold text-xs">{t("student.english_name")}</TableHead>
+              <TableHead className="font-semibold text-xs">{t("student.student_id")}</TableHead>
+              <TableHead className="font-semibold text-xs">{t("student.position")}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -75,7 +77,7 @@ const StudentList = () => {
                 <TableCell>
                   {s.position ? (
                     <Badge variant="secondary" className="text-[11px] font-medium">
-                      {s.position}
+                      {translatePosition(s.position)}
                     </Badge>
                   ) : (
                     <span className="text-xs text-muted-foreground">-</span>
@@ -86,7 +88,7 @@ const StudentList = () => {
             {filtered.length === 0 && (
               <TableRow>
                 <TableCell colSpan={5} className="py-12 text-center text-muted-foreground">
-                  No matching J203 student records found
+                  {t("student.no_results")}
                 </TableCell>
               </TableRow>
             )}

@@ -189,7 +189,96 @@ export const translations: Record<string, Record<Lang, string>> = {
   "timetable.friday": { zh: "星期五", en: "Friday" },
   "timetable.recess_1": { zh: "休息 1 (20 分钟)", en: "Recess 1 (20 min)" },
   "timetable.recess_2": { zh: "休息 2 (10 分钟)", en: "Recess 2 (10 min)" },
-  "timetable.recess_3": { zh: "午休 (50 分钟)", en: "Recess 3 (50 min)" },
+  "timetable.recess_3": { zh: "休息 3 (50 分钟)", en: "Recess 3 (50 min)" },
+
+  // Student List
+  "student.title": { zh: "J203 班级名单", en: "J203 Class List" },
+  "student.class_badge": { zh: "班级：J203", en: "Class: J203" },
+  "student.description": { zh: "包含 46 位同学的座号、姓名、学号和班级职位", en: "Includes seat numbers, names, student IDs and class positions for 46 students" },
+  "student.total": { zh: "共 {count} 位学生", en: "Total {count} students" },
+  "student.search_placeholder": { zh: "搜索姓名、座号（如：01）或学号…", en: "Search name, seat number (e.g., 01) or student ID…" },
+  "student.seat_no": { zh: "座号", en: "Seat No." },
+  "student.chinese_name": { zh: "中文名", en: "Chinese Name" },
+  "student.english_name": { zh: "英文名", en: "English Name" },
+  "student.student_id": { zh: "学号", en: "Student ID" },
+  "student.position": { zh: "职位", en: "Position" },
+  "student.no_results": { zh: "未找到匹配的 J203 学生记录", en: "No matching J203 student records found" },
+
+  // Student Positions
+  "position.class_monitor": { zh: "班长", en: "Class Monitor" },
+  "position.counseling_assistant": { zh: "辅导干事", en: "Counseling Assistant" },
+  "position.secretary": { zh: "文书干事", en: "Secretary" },
+  "position.malay_assistant": { zh: "国文干事", en: "Malay Assistant" },
+  "position.art_assistant": { zh: "美术干事", en: "Art Assistant" },
+  "position.science_assistant": { zh: "科学干事", en: "Science Assistant" },
+  "position.canteen_group": { zh: "食堂小组", en: "Canteen Group" },
+  "position.chinese_assistant": { zh: "华文干事", en: "Chinese Assistant" },
+  "position.mathematics_assistant": { zh: "数学干事", en: "Mathematics Assistant" },
+  "position.geography_assistant": { zh: "地理干事", en: "Geography Assistant" },
+  "position.multimedia_assistant": { zh: "多媒体干事", en: "Multimedia Assistant" },
+  "position.english_assistant": { zh: "英文干事", en: "English Assistant" },
+  "position.beautification": { zh: "美化干事", en: "Beautification" },
+  "position.physical_education_assistant": { zh: "体育干事", en: "Physical Education Assistant" },
+  "position.librarian": { zh: "图书干事", en: "Librarian" },
+  "position.computer_assistant": { zh: "电脑干事", en: "Computer Assistant" },
+  "position.treasurer": { zh: "财政", en: "Treasurer" },
+  "position.service": { zh: "服务干事", en: "Service" },
+  "position.publicity": { zh: "宣导干事", en: "Publicity" },
+  "position.history_assistant": { zh: "历史干事", en: "History Assistant" },
+  "position.hygiene": { zh: "卫生干事", en: "Hygiene" },
+  "position.environmental": { zh: "环保干事", en: "Environmental" },
+  "position.discipline": { zh: "风纪干事", en: "Discipline" },
+
+  // Teacher Positions
+  "teacher.subject_teacher": { zh: "科任老师", en: "Subject Teacher" },
+  "teacher.teaching_assistant": { zh: "助教", en: "Teaching Assistant" },
+
+  // Instructors Page
+  "instructors.title": { zh: "J203 教师团队", en: "J203 Teaching Team" },
+  "instructors.description": { zh: "包括固定教师编号 T001 - T011 和助教职位（TA001 - TA002）", en: "Includes fixed teacher IDs T001 - T011 and teaching assistant positions (TA001 - TA002)" },
+  "instructors.count": { zh: "{count} 位教师", en: "{count} teaching staff" },
+  "instructors.search_placeholder": { zh: "搜索教师编号（如：T004）、姓名或科目…", en: "Search teacher ID (e.g., T004), name or subject…" },
+  "instructors.contact": { zh: "官方联系账号", en: "Official contact account" },
+  "instructors.no_results": { zh: "未找到匹配的教师信息", en: "No matching teacher information found" },
+};
+
+export const TEACHER_POSITION_KEYS: Record<string, string> = {
+  "Subject Teacher": "teacher.subject_teacher",
+  "Teaching Assistant": "teacher.teaching_assistant",
+};
+
+export const getTeacherPositionKey = (position: string): string => {
+  return TEACHER_POSITION_KEYS[position] || position;
+};
+
+export const POSITION_KEYS: Record<string, string> = {
+  "Class Monitor": "position.class_monitor",
+  "Counseling Assistant": "position.counseling_assistant",
+  "Secretary": "position.secretary",
+  "Malay Assistant": "position.malay_assistant",
+  "Art Assistant": "position.art_assistant",
+  "Science Assistant": "position.science_assistant",
+  "Canteen Group": "position.canteen_group",
+  "Chinese Assistant": "position.chinese_assistant",
+  "Mathematics Assistant": "position.mathematics_assistant",
+  "Geography Assistant": "position.geography_assistant",
+  "Multimedia Assistant": "position.multimedia_assistant",
+  "English Assistant": "position.english_assistant",
+  "Beautification": "position.beautification",
+  "Physical Education Assistant": "position.physical_education_assistant",
+  "Librarian": "position.librarian",
+  "Computer Assistant": "position.computer_assistant",
+  "Treasurer": "position.treasurer",
+  "Service": "position.service",
+  "Publicity": "position.publicity",
+  "History Assistant": "position.history_assistant",
+  "Hygiene": "position.hygiene",
+  "Environmental": "position.environmental",
+  "Discipline": "position.discipline",
+};
+
+export const getPositionKey = (position: string): string => {
+  return POSITION_KEYS[position] || position;
 };
 
 export const SUBJECT_KEYS: Record<string, string> = {
