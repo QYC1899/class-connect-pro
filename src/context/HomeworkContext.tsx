@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { ContentItem, ReadStatusItem, ContentCategory, subjectAssistants, classAssistants } from '@/types';
+import { ContentItem, ReadStatusItem, ContentCategory, subjectAssistants, classAssistants, User } from '@/types';
 import { INITIAL_CONTENTS, INITIAL_READ_STATUS, ALL_STUDENTS } from '@/data/mockData';
 
 interface HomeworkContextType {
@@ -7,7 +7,7 @@ interface HomeworkContextType {
   readStatuses: ReadStatusItem[];
   addContent: (content: Omit<ContentItem, 'contentId' | 'assignedDate' | 'status'>) => { success: boolean; message: string };
   updateContent: (contentId: string, data: Partial<ContentItem>) => void;
-  deleteContent: (contentId: string) => void;
+  deleteContent: (contentId: string, user: User | null) => { success: boolean; message: string };
   getContentsByCategory: (category: ContentCategory) => ContentItem[];
   markAsRead: (contentId: string, studentId: string) => void;
   getReadStatusForContent: (contentId: string) => {
@@ -18,6 +18,7 @@ interface HomeworkContextType {
     readDate?: string;
   }[];
   canUserPublish: (userPosition: string | undefined, userRole: string, category: ContentCategory) => boolean;
+  canUserDelete: (content: ContentItem, user: User | null) => boolean;
   categoryLabel: (category: ContentCategory) => string;
 }
 
@@ -107,9 +108,19 @@ export const HomeworkProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     );
   };
 
-  const deleteContent = (contentId: string) => {
+  const deleteContent = (contentId: string, user: User | null) => {
+    const content = contents.find(c => c.contentId === contentId);
+    if (!content) {
+      return { success: false, message: 'Content not found' };
+    }
+
+    if (!canUserDelete(content, user)) {
+      return { success: false, message: 'You do not have permission to delete this content' };
+    }
+
     setContents((prev) => prev.filter((c) => c.contentId !== contentId));
     setReadStatuses((prev) => prev.filter((r) => r.contentId !== contentId));
+    return { success: true, message: 'Content deleted successfully' };
   };
 
   const getContentsByCategory = (category: ContentCategory) => {
@@ -177,6 +188,16 @@ export const HomeworkProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     return false;
   };
 
+  const canUserDelete = (content: ContentItem, user: User | null): boolean => {
+    // Teachers can delete any content
+    if (user?.role === 'teacher') return true;
+
+    // Students cannot delete content
+    if (user?.role === 'student') return false;
+
+    return false;
+  };
+
   const categoryLabel = (category: ContentCategory): string => {
     return getCategoryLabel(category);
   };
@@ -193,6 +214,7 @@ export const HomeworkProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         markAsRead,
         getReadStatusForContent,
         canUserPublish,
+        canUserDelete,
         categoryLabel,
       }}
     >

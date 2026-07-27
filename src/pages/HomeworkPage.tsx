@@ -92,9 +92,13 @@ const HomeworkPage: React.FC = () => {
 
   const handleDelete = (contentId: string, title: string) => {
     if (confirm(`${t("hw.delete_confirm")}《${title}》？`)) {
-      deleteContent(contentId);
-      if (selectedContent?.contentId === contentId) setSelectedContent(null);
-      toast({ title: t("hw.delete_success"), description: `${t("hw.delete_desc")}《${title}》` });
+      const result = deleteContent(contentId, user);
+      if (result.success) {
+        if (selectedContent?.contentId === contentId) setSelectedContent(null);
+        toast({ title: t("hw.delete_success"), description: `${t("hw.delete_desc")}《${title}》` });
+      } else {
+        toast({ title: t("hw.delete_error"), description: result.message, variant: "destructive" });
+      }
     }
   };
 
@@ -305,7 +309,7 @@ const HomeworkPage: React.FC = () => {
                             <Badge variant="secondary" className="text-[10px]">
                               {content.assignerRole}: {content.assignerName}
                             </Badge>
-                            {canPublish && (
+                            {user.role === "teacher" && (
                               <Button
                                 variant="ghost"
                                 size="icon"
