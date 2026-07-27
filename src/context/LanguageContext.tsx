@@ -20,9 +20,9 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const [lang, setLangState] = useState<Lang>(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
-      return (saved === 'zh' || saved === 'en') ? saved : 'zh';
+      return (saved === 'zh' || saved === 'en') ? saved : 'en';
     } catch {
-      return 'zh';
+      return 'en';
     }
   });
 
