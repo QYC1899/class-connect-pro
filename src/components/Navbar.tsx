@@ -8,6 +8,7 @@ import {
   Home,
   CalendarDays,
   BookOpen,
+  Bot,
   LogOut,
   LogIn,
   Languages
@@ -81,6 +82,10 @@ const Navbar: React.FC = () => {
           <Link to="/timetable" className={getLinkClass("/timetable")}>
             <CalendarDays size={16} />
             <span>{t("nav.timetable")}</span>
+          </Link>
+          <Link to="/chatbot" className={getLinkClass("/chatbot")}>
+            <Bot size={16} />
+            <span>{t("nav.chatbot")}</span>
           </Link>
         </nav>
 
@@ -161,6 +166,9 @@ const Navbar: React.FC = () => {
         </Link>
         <Link to="/timetable" className={`px-2 py-1 rounded ${isActive("/timetable") ? "font-bold text-primary" : "text-muted-foreground"}`}>
           {t("nav.mobile_timetable")}
+        </Link>
+        <Link to="/chatbot" className={`px-2 py-1 rounded ${isActive("/chatbot") ? "font-bold text-primary" : "text-muted-foreground"}`}>
+          {t("nav.mobile_chatbot")}
         </Link>
       </div>
     </header>

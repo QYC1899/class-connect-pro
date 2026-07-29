@@ -9,6 +9,8 @@ export const translations: Record<string, Record<Lang, string>> = {
   "nav.students": { zh: "J203 班级名单", en: "J203 Class List" },
   "nav.teachers": { zh: "教师团队", en: "Teaching Team" },
   "nav.timetable": { zh: "课程表", en: "Timetable" },
+  "nav.chatbot": { zh: "AI 助手", en: "AI Chat" },
+  "nav.mobile_chatbot": { zh: "AI 助手", en: "AI Chat" },
   "nav.mobile_home": { zh: "主页", en: "Home" },
   "nav.mobile_homework": { zh: "作业", en: "Homework" },
   "nav.mobile_class": { zh: "班级", en: "Class" },
@@ -50,7 +52,7 @@ export const translations: Record<string, Record<Lang, string>> = {
   // Index / Home Page
   "index.hero_badge": { zh: "✨ J203 教学与作业管理平台 · Class Connect Pro", en: "✨ J203 Teaching & Homework Management Platform · Class Connect Pro" },
   "index.hero_title": { zh: "J203 智能教学平台", en: "J203 Smart Teaching Platform" },
-  "index.hero_desc": { zh: "高效便捷的班级作业发布、在线提交、成绩追踪与学生信息管理系统。", en: "Efficient class homework publishing, online submission, grade tracking and student information management system." },
+  "index.hero_desc": { zh: "高效便捷的班级作业发布、在线提交、已读状态追踪与学生信息管理系统。", en: "Efficient class homework publishing, online submission, read-status tracking and student information management system." },
   "index.enter_homework": { zh: "进入我的作业主页", en: "Enter My Homework Page" },
   "index.login": { zh: "登录 Class Connect Pro", en: "Login to Class Connect Pro" },
   "index.view_class": { zh: "查看 J203 班级名单", en: "View J203 Class List" },
@@ -232,6 +234,18 @@ export const translations: Record<string, Record<Lang, string>> = {
   // Teacher Positions
   "teacher.subject_teacher": { zh: "科任老师", en: "Subject Teacher" },
   "teacher.teaching_assistant": { zh: "助教", en: "Teaching Assistant" },
+
+  // Chatbot Page
+  "chatbot.title": { zh: "AI 学习助手", en: "AI Learning Assistant" },
+  "chatbot.subtitle": { zh: "由 Flowise AI 驱动的智能问答系统，支持 LaTeX 公式渲染", en: "AI Q&A system powered by Flowise AI, with LaTeX rendering support" },
+  "chatbot.input_placeholder": { zh: "输入你的问题…", en: "Type your question…" },
+  "chatbot.send": { zh: "发送", en: "Send" },
+  "chatbot.sending": { zh: "思考中…", en: "Thinking…" },
+  "chatbot.welcome_title": { zh: "你好！我是 J203 AI 学习助手", en: "Hello! I'm J203 AI Learning Assistant" },
+  "chatbot.welcome_desc": { zh: "你可以问我关于数学、科学、历史等任何学科的问题。我会尽力以文字和 LaTeX 公式为你解答！", en: "Ask me questions about Math, Science, History, or any subject. I'll answer with text and LaTeX formulas!" },
+  "chatbot.clear": { zh: "清除对话", en: "Clear chat" },
+  "chatbot.error": { zh: "抱歉，回复失败，请稍后重试。", en: "Sorry, failed to get response. Please try again later." },
+  "chatbot.thinking": { zh: "正在思考…", en: "Thinking…" },
 
   // Instructors Page
   "instructors.title": { zh: "J203 教师团队", en: "J203 Teaching Team" },

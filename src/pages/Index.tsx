@@ -15,7 +15,8 @@ import {
   LogIn,
   ArrowRight,
   CheckCircle2,
-  CalendarDays
+  CalendarDays,
+  Bot
 } from "lucide-react";
 
 const Index: React.FC = () => {
@@ -211,6 +212,17 @@ const Index: React.FC = () => {
           <h3 className="text-lg font-bold text-foreground">{t("feature.timetable")}</h3>
           <p className="mt-1 text-xs text-muted-foreground">
             {t("feature.timetable_desc")}
+          </p>
+        </Link>
+
+        <Link
+          to="/chatbot"
+          className="group rounded-2xl border bg-card p-6 shadow-sm transition-all hover:border-primary hover:shadow-md"
+        >
+          <Bot className="mb-3 text-violet-500 group-hover:scale-110 transition-transform" size={28} />
+          <h3 className="text-lg font-bold text-foreground">{t("nav.chatbot")}</h3>
+          <p className="mt-1 text-xs text-muted-foreground">
+            AI-powered Q&A with LaTeX rendering
           </p>
         </Link>
       </div>

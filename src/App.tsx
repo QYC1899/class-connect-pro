@@ -13,6 +13,7 @@ import Instructors from "./pages/Instructors";
 import Timetable from "./pages/Timetable";
 import LoginPage from "./pages/LoginPage";
 import HomeworkPage from "./pages/HomeworkPage";
+import Chatbot from "./pages/Chatbot";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -34,6 +35,7 @@ const App = () => (
                   <Route path="/student" element={<StudentList />} />
                   <Route path="/instructors" element={<Instructors />} />
                   <Route path="/timetable" element={<Timetable />} />
+                  <Route path="/chatbot" element={<Chatbot />} />
                 </Route>
                 <Route path="*" element={<NotFound />} />
               </Routes>
